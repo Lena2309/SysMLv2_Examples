@@ -6,7 +6,7 @@ package RequirementManagementAgents {
 
     part def RequirementManagerAgent specializes SolutionAgent {
         id = "eu.mosaico-project.requirement-manager-agent-type.v1";
-        constraint { licences == "MIT" }
+        constraint { licence == "MIT" }
     }
 
     part def CheckCorrectNessAgent specializes SupervisionAgent {
