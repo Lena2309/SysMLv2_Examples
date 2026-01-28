@@ -9,12 +9,24 @@ package RequirementManagementAgents {
         constraint { licences == "MIT" }
     }
 
+    part def CheckCorrectNessAgent specializes SupervisionAgent {
+        id = "eu.mosaico-project.check-correctness-agent-type.v1";
+    }
+
+    part def CheckNonRedundancyAgent specializes SupervisionAgent {
+        id = "eu.mosaico-project.check-non-redundancy-agent-type.v1";
+    }
+
+    part def CheckSatisfiabilityAgent specializes SupervisionAgent {
+        id = "eu.mosaico-project.check-satisfiability-agent-type.v1";
+    }
+
     referenceAgent : ReferenceAgent;
     consensusAgent: ConsensusAgent;
     requirementManagerAgent : RequirementManagerAgent;
-    checkCorrectnessAgent: SupervisionAgent;
-    checkNonRedundancyAgent: SupervisionAgent;
-    checkSatisfiabilityAgent: SupervisionAgent;
+    checkCorrectnessAgent : CheckCorrectNessAgent;
+    checkNonRedundancyAgent : CheckNonRedundancyAgent;
+    checkSatisfiabilityAgent : CheckSatisfiabilityAgent;
 
     action def GenerateRequirementsProcess {
         
