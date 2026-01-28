@@ -22,11 +22,11 @@ package RequirementManagementAgents {
     }
 
     referenceAgent : ReferenceAgent;
-    consensusAgent: ConsensusAgent;
     requirementManagerAgent : RequirementManagerAgent;
     checkCorrectnessAgent : CheckCorrectNessAgent;
     checkNonRedundancyAgent : CheckNonRedundancyAgent;
     checkSatisfiabilityAgent : CheckSatisfiabilityAgent;
+    consensusAgent: ConsensusAgent;
 
     action def GenerateRequirementsProcess {
         

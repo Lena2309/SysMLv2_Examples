@@ -23,11 +23,11 @@ package RequirementManagementAgentsNoParams {
     }
 
     referenceAgent : ReferenceAgent;
-    consensusAgent: ConsensusAgent;
     requirementManagerAgent : RequirementManagerAgent;
     checkCorrectnessAgent : CheckCorrectNessAgent;
     checkNonRedundancyAgent : CheckNonRedundancyAgent;
     checkSatisfiabilityAgent : CheckSatisfiabilityAgent;
+    consensusAgent: ConsensusAgent;
 
     action def GenerateRequirementsProcess {
         
@@ -36,61 +36,38 @@ package RequirementManagementAgentsNoParams {
         then action userInput : Step {
             description = "Get a system description from the user.";
             agent = referenceAgent;
-            // out systemDescription : String;
         }
 
         then loop action constructRequirementList  {
-            // in systemDescription : String;
-            // inout requirements : String [0..*];
 
             action decompose : Step {
                 description = "A new requirement is generated based on the system description.";
                 agent = requirementManagerAgent;
-                // in systemDescription : String;
-                // out newRequirement : String;
             }
 
             then fork; then checkCorrectness; then checkNonRedundancy; then checkSatisfiability;
             
             action checkCorrectness : Step {
                 description = "Checks whether the new Requirement is correct based on the system description.";
-                // in newRequirement : String;
-                // in systemDescription : String;
-                // out isCorrect : Boolean;
             } then joinNode;
 
             action checkNonRedundancy : Step {
                 description = "Checks that the new requirement is not redundant based on the current list of accepted requirements";
-                // in newRequirement : String;
-                // in systemDescription : String;
-                // in requirements : String [0..*];
-                // out isNonRedundant : Boolean;
             } then joinNode;
 
             action checkSatisfiability : Step {
                 description = "Checks whether the new requirement is satisfiable.";
-                // in newRequirement : String;
-                // in systemDescription : String;
-                // in requirements : String [0..*];
-                // out isSatisfiable : Boolean;
             } then joinNode;
 
             then join joinNode;
 
             then action checkConsensus : Step {
                 agent = consensusAgent;
-                // in isCorrect : Boolean;
-                // in isNonRedundant : Boolean;
-                // in isSatisfiable : Boolean;
-                // out allValid = isCorrect and isNonRedundant and isSatisfiable;
             }
 
             then action updateRequirements : Step {
                 description = "Updates the list of accepted requirements and checks whether the list of accepted requirements is complete.";
                 agent = requirementManagerAgent;
-                // in requirements : String [0..*];
-                // in newRequirement : String;
-                // in systemDescription : String;
                 out isComplete : Boolean;
             }
         } until constructRequirementList.updateRequirements.isComplete;
@@ -98,7 +75,6 @@ package RequirementManagementAgentsNoParams {
         then action outputToUser : Step {
             description = "Returns the list of completed requirements to the user.";
             agent = referenceAgent;
-            // inout requirements : String [0..*];
         }
 
         then done;
