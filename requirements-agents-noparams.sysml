@@ -7,7 +7,7 @@ package RequirementManagementAgentsNoParams {
 
     part def RequirementManagerAgent specializes SolutionAgent {
         id = "eu.mosaico-project.requirement-manager-agent-type.v1";
-        constraint { licences == "MIT" }
+        constraint { licence == "MIT" }
     }
 
     part def CheckCorrectNessAgent specializes SupervisionAgent {
@@ -34,47 +34,47 @@ package RequirementManagementAgentsNoParams {
         first start;
         
         then action userInput : Step {
-            description = "Get a system description from the user.";
-            agent = referenceAgent;
+            ::> description = "Get a system description from the user.";
+            ::> agent = referenceAgent;
         }
 
         then loop action constructRequirementList  {
 
             action decompose : Step {
-                description = "A new requirement is generated based on the system description.";
-                agent = requirementManagerAgent;
+                ::> description = "A new requirement is generated based on the system description.";
+                ::> agent = requirementManagerAgent;
             }
 
             then fork; then checkCorrectness; then checkNonRedundancy; then checkSatisfiability;
             
             action checkCorrectness : Step {
-                description = "Checks whether the new Requirement is correct based on the system description.";
+                ::> description = "Checks whether the new Requirement is correct based on the system description.";
             } then joinNode;
 
             action checkNonRedundancy : Step {
-                description = "Checks that the new requirement is not redundant based on the current list of accepted requirements";
+                ::> description = "Checks that the new requirement is not redundant based on the current list of accepted requirements";
             } then joinNode;
 
             action checkSatisfiability : Step {
-                description = "Checks whether the new requirement is satisfiable.";
+                ::> description = "Checks whether the new requirement is satisfiable.";
             } then joinNode;
 
             then join joinNode;
 
             then action checkConsensus : Step {
-                agent = consensusAgent;
+                ::> agent = consensusAgent;
             }
 
             then action updateRequirements : Step {
-                description = "Updates the list of accepted requirements and checks whether the list of accepted requirements is complete.";
-                agent = requirementManagerAgent;
+                ::> description = "Updates the list of accepted requirements and checks whether the list of accepted requirements is complete.";
+                ::> agent = requirementManagerAgent;
                 out isComplete : Boolean;
             }
         } until constructRequirementList.updateRequirements.isComplete;
 
         then action outputToUser : Step {
-            description = "Returns the list of completed requirements to the user.";
-            agent = referenceAgent;
+            ::> description = "Returns the list of completed requirements to the user.";
+            ::> agent = referenceAgent;
         }
 
         then done;
