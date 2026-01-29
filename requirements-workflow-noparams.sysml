@@ -33,7 +33,7 @@ package RequirementManagementWorkflowNoParams {
             then join joinNode;
 
             then action checkConsensus {
-                description = "Validates if all previous checks are successful.";
+                description = "Tries to reach consensus among all checks.";
             }
 
             then action updateRequirements {
@@ -47,4 +47,5 @@ package RequirementManagementWorkflowNoParams {
         }
 
         then done;
-}}
+    }
+}
