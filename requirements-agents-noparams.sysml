@@ -1,13 +1,12 @@
 private import ScalarValues::*;
-private import Collections::*;
-private import CollectionFunctions::*;
+private import SequenceFunctions::*;
 private import MOSAICO::*;
 
 package RequirementManagementAgentsNoParams {
 
     part def RequirementManagerAgent specializes SolutionAgent {
         id = "eu.mosaico-project.requirement-manager-agent-type.v1";
-        constraint { licence == "MIT" }
+        constraint { licences->includes("MIT") }
     }
 
     part def CheckCorrectNessAgent specializes SupervisionAgent {

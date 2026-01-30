@@ -6,7 +6,7 @@ package MOSAICO {
     part def Agent {
         attribute id : String[0..1];
         attribute version : String[0..1];
-        attribute licence : String;
+        attribute licences : String;
         attribute skills : String[0..*];
     }
 
