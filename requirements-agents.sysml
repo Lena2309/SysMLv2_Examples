@@ -61,7 +61,7 @@ package RequirementManagementAgents {
 
             action checkNonRedundancy : SupervisionStep {
                 ::> description = "Checks that the new requirement is not redundant based on the current list of accepted requirements";
-                agent = checkNonRedundancyAgent;
+                ::> agent = checkNonRedundancyAgent;
                 in newRequirement : String;
                 in systemDescription : String;
                 in requirements : String [0..*];
