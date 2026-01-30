@@ -1,7 +1,7 @@
-private import ScalarValues::*;
-private import Collections::*;
-
 package MOSAICO {
+
+    private import ScalarValues::*;
+    private import Collections::*;
 
     part def Agent {
         attribute id : String[0..1];

@@ -1,8 +1,8 @@
-private import ScalarValues::*;
-private import SequenceFunctions::*;
-private import MOSAICO::*;
-
 package RequirementManagementAgents {
+
+    private import ScalarValues::*;
+    private import SequenceFunctions::*;
+    private import MOSAICO::*;
 
     part def RequirementManagerAgent specializes SolutionAgent {
         ::> id = "eu.mosaico-project.requirement-manager-agent-type.v1";

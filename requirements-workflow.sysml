@@ -1,6 +1,6 @@
-private import ScalarValues::*;
-
 package RequirementManagementWorkflow {
+
+    private import ScalarValues::*;
 
     action def GenerateRequirementsProcess {
         
