@@ -49,7 +49,7 @@ package RequirementManagementWorkflow {
             }
             then joinNode;
 
-            then join joinNode;
+            join joinNode;
 
             then action checkConsensus {
                 in isCorrect : Boolean;

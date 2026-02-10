@@ -82,7 +82,7 @@ package RequirementManagementAgents {
             }
             then joinNode;
 
-            then join joinNode;
+            join joinNode;
 
             then action checkConsensus : ConsensusStep {
                 :>> agent = consensusAgent;

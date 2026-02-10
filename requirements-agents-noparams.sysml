@@ -63,7 +63,7 @@ package RequirementManagementAgentsNoParams {
             }
             then joinNode;
 
-            then join joinNode;
+            join joinNode;
 
             then action checkConsensus : Step {
                 :>> agent = consensusAgent;

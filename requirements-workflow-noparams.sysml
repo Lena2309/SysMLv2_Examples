@@ -30,7 +30,7 @@ package RequirementManagementWorkflowNoParams {
                 description = "Checks whether the new requirement is satisfiable.";
             } then joinNode;
 
-            then join joinNode;
+            join joinNode;
 
             then action checkConsensus {
                 description = "Tries to reach consensus among all checks.";
