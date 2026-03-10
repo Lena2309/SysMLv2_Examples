@@ -29,39 +29,39 @@ package RequirementManagementAgentsNoParamsFlat {
 
     action def GenerateRequirementsProcess {
 
-        action userInput : Step {
+        action userInput : AgentStep {
             :>> description = "Get a system description from the user.";
             :>> agent = referenceAgent;
         }
 
-        action decompose : Step {
+        action decompose : AgentStep {
             :>> description = "A new requirement is generated based on the system description.";
             :>> agent = requirementManagerAgent;
         }
 
         fork forkNode;
 
-        action checkCorrectness : Step {
+        action checkCorrectness : AgentStep {
             :>> description =
                 "Checks whether the new Requirement is correct based on the system description.";
         }
 
-        action checkNonRedundancy : Step {
+        action checkNonRedundancy : AgentStep {
             :>> description =
                 "Checks that the new requirement is not redundant based on the current list of accepted requirements";
         }
 
-        action checkSatisfiability : Step {
+        action checkSatisfiability : AgentStep {
             :>> description = "Checks whether the new requirement is satisfiable.";
         }
 
         join joinNode;
 
-        action checkConsensus : Step {
+        action checkConsensus : AgentStep {
             :>> agent = consensusAgent;
         }
 
-        action updateRequirements : Step {
+        action updateRequirements : AgentStep {
             :>> description =
                 "Updates the list of accepted requirements and checks whether the list of accepted requirements is complete.";
             :>> agent = requirementManagerAgent;
@@ -70,7 +70,7 @@ package RequirementManagementAgentsNoParamsFlat {
 
         decide decisionNode ;
 
-        action outputToUser : Step {
+        action outputToUser : AgentStep {
             :>> description = "Returns the list of completed requirements to the user.";
             :>> agent = referenceAgent;
         }

@@ -26,20 +26,29 @@ package MOSAICO {
 
     action def Step {
         attribute description : String[0..1];
-        ref agent: Agent[0..1];
     }
 
-    action def ReferenceStep specializes Step {
+    action def AgentStep specializes Step {
+        ref agent : Agent[0..1];
+    }
+
+    action def ReferenceStep specializes AgentStep {
         redefines agent : ReferenceAgent;
     }
     
-    action def ConsensusStep specializes Step {
+    action def ConsensusStep specializes AgentStep {
         redefines agent : ConsensusAgent;
         attribute policy : String[0..1];
     }
 
-    action def SupervisionStep specializes Step {
+    action def SupervisionStep specializes AgentStep {
         redefines agent : SupervisionAgent;
+    }
+
+    action def ReplicationStep specializes AgentStep {
+        ref agents: Agent[0..*];
+        attribute repetitions : Integer[0..*];
+        attribute prompts : String[0..*];
     }
 
 }

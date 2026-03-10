@@ -1,7 +1,8 @@
-package RequirementManagementAgents {
+package RequirementManagementAgentsNoParams {
     private import ScalarValues::*;
     private import SequenceFunctions::*;
     private import MOSAICO::*;
+    private import Collections::*;
 
     part def RequirementManagerAgent specializes SolutionAgent {
         :>> id = "eu.mosaico-project.requirement-manager-agent-type.v1";
@@ -30,75 +31,56 @@ package RequirementManagementAgents {
     action def GenerateRequirementsProcess {
         first start;
 
-        then action userInput : ReferenceStep {
+        then action userInput : AgentStep {
             :>> description = "Get a system description from the user.";
-            out systemDescription : String;
+            :>> agent = referenceAgent;
         }
 
         then loop action constructRequirementList {
-            in systemDescription : String;
-            inout requirements : String [0..*];
-
             action decompose : AgentStep {
                 :>> description = "A new requirement is generated based on the system description.";
                 :>> agent = requirementManagerAgent;
-                in systemDescription : String;
-                out newRequirement : String;
             }
 
             then fork;
-                then checkCorrectness;
+                then replicateCorrectness;
                 then checkNonRedundancy;
                 then checkSatisfiability;
 
-            action checkCorrectness : SupervisionStep {
-                :>> description =
-                    "Checks whether the new Requirement is correct based on the system description.";
-                :>> agent = checkCorrectnessAgent;
-                in newRequirement : String;
-                in systemDescription : String;
-                out isCorrect : Boolean;
+            action replicateCorrectness : ReplicationStep {
+                :>> agents = (checkCorrectnessAgent);
+                :>> repetitions = (10);
+                :>> prompts = ("Replicates the correctness check to multiple agents.");
+
+                action checkCorrectness : AgentStep {
+                    :>> description =
+                        "Checks whether the new Requirement is correct based on the system description.";
+                }
             }
             then joinNode;
+            
 
-            action checkNonRedundancy : SupervisionStep {
+            action checkNonRedundancy : AgentStep {
                 :>> description =
                     "Checks that the new requirement is not redundant based on the current list of accepted requirements";
-                :>> agent = checkNonRedundancyAgent;
-                in newRequirement : String;
-                in systemDescription : String;
-                in requirements : String [0..*];
-                out isNonRedundant : Boolean;
             }
             then joinNode;
 
-            action checkSatisfiability : SupervisionStep {
+            action checkSatisfiability : AgentStep {
                 :>> description = "Checks whether the new requirement is satisfiable.";
-                :>> agent = checkSatisfiabilityAgent;
-                in newRequirement : String;
-                in systemDescription : String;
-                in requirements : String [0..*];
-                out isSatisfiable : Boolean;
             }
             then joinNode;
 
             join joinNode;
 
-            then action checkConsensus : ConsensusStep {
+            then action checkConsensus : AgentStep {
                 :>> agent = consensusAgent;
-                in isCorrect : Boolean;
-                in isNonRedundant : Boolean;
-                in isSatisfiable : Boolean;
-                out allValid = isCorrect and isNonRedundant and isSatisfiable;
             }
 
             then action updateRequirements : AgentStep {
                 :>> description =
                     "Updates the list of accepted requirements and checks whether the list of accepted requirements is complete.";
                 :>> agent = requirementManagerAgent;
-                in requirements : String [0..*];
-                in newRequirement : String;
-                in systemDescription : String;
                 out isComplete : Boolean;
             }
         } until constructRequirementList.updateRequirements.isComplete;
@@ -106,7 +88,6 @@ package RequirementManagementAgents {
         then action outputToUser : AgentStep {
             :>> description = "Returns the list of completed requirements to the user.";
             :>> agent = referenceAgent;
-            inout requirements : String [0..*];
         }
 
         then done;

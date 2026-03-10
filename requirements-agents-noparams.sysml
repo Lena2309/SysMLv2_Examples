@@ -30,13 +30,13 @@ package RequirementManagementAgentsNoParams {
     action def GenerateRequirementsProcess {
         first start;
 
-        then action userInput : Step {
+        then action userInput : AgentStep {
             :>> description = "Get a system description from the user.";
             :>> agent = referenceAgent;
         }
 
         then loop action constructRequirementList {
-            action decompose : Step {
+            action decompose : AgentStep {
                 :>> description = "A new requirement is generated based on the system description.";
                 :>> agent = requirementManagerAgent;
             }
@@ -46,30 +46,30 @@ package RequirementManagementAgentsNoParams {
                 then checkNonRedundancy;
                 then checkSatisfiability;
 
-            action checkCorrectness : Step {
+            action checkCorrectness : AgentStep {
                 :>> description =
                     "Checks whether the new Requirement is correct based on the system description.";
             }
             then joinNode;
 
-            action checkNonRedundancy : Step {
+            action checkNonRedundancy : AgentStep {
                 :>> description =
                     "Checks that the new requirement is not redundant based on the current list of accepted requirements";
             }
             then joinNode;
 
-            action checkSatisfiability : Step {
+            action checkSatisfiability : AgentStep {
                 :>> description = "Checks whether the new requirement is satisfiable.";
             }
             then joinNode;
 
             join joinNode;
 
-            then action checkConsensus : Step {
+            then action checkConsensus : AgentStep {
                 :>> agent = consensusAgent;
             }
 
-            then action updateRequirements : Step {
+            then action updateRequirements : AgentStep {
                 :>> description =
                     "Updates the list of accepted requirements and checks whether the list of accepted requirements is complete.";
                 :>> agent = requirementManagerAgent;
@@ -77,7 +77,7 @@ package RequirementManagementAgentsNoParams {
             }
         } until constructRequirementList.updateRequirements.isComplete;
 
-        then action outputToUser : Step {
+        then action outputToUser : AgentStep {
             :>> description = "Returns the list of completed requirements to the user.";
             :>> agent = referenceAgent;
         }
